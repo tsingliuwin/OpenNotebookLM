@@ -1,0 +1,5 @@
+{
+  "name": "OpenNotebookLM",
+  "description": "An open-source implementation of the NotebookLM experience using Gemini 2.5 Flash for grounded question answering and content generation.",
+  "requestFramePermissions": []
+}
