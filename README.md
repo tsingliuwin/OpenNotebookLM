@@ -1,9 +1,9 @@
 # OpenNotebookLM
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Next.js-16.0.10-000000?style=flat-square&logo=nextdotjs" alt="Next.js">
   <img src="https://img.shields.io/badge/React-19.2.1-61DAFB?style=flat-square&logo=react" alt="React">
   <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Vite-6.2-646CFF?style=flat-square&logo=vite" alt="Vite">
   <img src="https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?style=flat-square&logo=tailwindcss" alt="TailwindCSS">
   <img src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285F4?style=flat-square&logo=google" alt="Gemini">
 </p>
@@ -35,8 +35,8 @@
 
 | 类别 | 技术 |
 |------|------|
-| **框架** | React 19 + TypeScript |
-| **构建工具** | Vite 6 |
+| **框架** | Next.js 16 (App Router) |
+| **前端** | React 19 + TypeScript |
 | **样式** | TailwindCSS 4 |
 | **AI 模型** | Google Gemini 2.5 Flash |
 | **PDF 解析** | PDF.js |
@@ -76,25 +76,31 @@
 
 5. **访问应用 / Access the app**
    
-   打开浏览器访问 `http://localhost:5173`
+   打开浏览器访问 `http://localhost:3000`
 
 ## 📁 项目结构 / Project Structure
 
 ```
 OpenNotebookLM/
-├── components/           # React 组件
-│   ├── Home.tsx          # 首页组件
-│   ├── Notebook.tsx      # 笔记本主界面
-│   └── SourceModal.tsx   # 来源添加弹窗
+├── app/                      # Next.js App Router
+│   ├── layout.tsx            # 根布局组件
+│   ├── page.tsx              # 首页路由
+│   ├── globals.css           # 全局样式
+│   └── notebook/             # 笔记本路由
+│       └── page.tsx          # 笔记本页面
+├── components/               # React 组件
+│   ├── Home.tsx              # 首页组件
+│   ├── Notebook.tsx          # 笔记本主界面
+│   └── SourceModal.tsx       # 来源添加弹窗
 ├── services/
-│   └── geminiService.ts  # Gemini AI 服务封装
-├── App.tsx               # 应用入口组件
-├── types.ts              # TypeScript 类型定义
-├── index.tsx             # React DOM 渲染入口
-├── index.css             # 全局样式
-├── index.html            # HTML 模板
-├── vite.config.ts        # Vite 配置
-└── package.json          # 项目依赖
+│   └── geminiService.ts      # Gemini AI 服务封装
+├── lib/
+│   └── notebookStore.ts      # 笔记本状态管理
+├── types.ts                  # TypeScript 类型定义
+├── next.config.ts            # Next.js 配置
+├── postcss.config.mjs        # PostCSS 配置
+├── tsconfig.json             # TypeScript 配置
+└── package.json              # 项目依赖
 ```
 
 ## 📖 使用指南 / Usage Guide
@@ -122,9 +128,10 @@ OpenNotebookLM/
 
 | 命令 | 描述 |
 |------|------|
-| `npm run dev` | 启动开发服务器 |
+| `npm run dev` | 启动开发服务器 (默认端口 3000) |
 | `npm run build` | 构建生产版本 |
-| `npm run preview` | 预览生产构建 |
+| `npm run start` | 运行生产版本 |
+| `npm run lint` | 运行 ESLint 代码检查 |
 
 ## 🤝 贡献 / Contributing
 
@@ -144,7 +151,8 @@ OpenNotebookLM/
 
 - [Google NotebookLM](https://notebooklm.google/) - 项目灵感来源
 - [Google Gemini](https://deepmind.google/technologies/gemini/) - AI 大模型支持
-- [Vite](https://vitejs.dev/) - 极速的前端构建工具
+- [Next.js](https://nextjs.org/) - React 全栈框架
+- [Vercel](https://vercel.com/) - 部署平台
 
 ---
 
