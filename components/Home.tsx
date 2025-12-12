@@ -30,7 +30,7 @@ const Home: React.FC<HomeProps> = ({ notebooks, onSelectNotebook, onCreateNotebo
                     </div>
                     <span className="text-xl font-medium tracking-tight text-gray-800">OpenNotebookLM</span>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-sm">I</div>
+
             </nav>
 
             <div className="max-w-7xl mx-auto px-6 py-8">
