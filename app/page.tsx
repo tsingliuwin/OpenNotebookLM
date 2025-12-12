@@ -1,42 +1,29 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
-import { Notebook as NotebookType, ViewState } from '@/types';
+import { Notebook as NotebookType } from '@/types';
 import Home from '@/components/Home';
-import Notebook from '@/components/Notebook';
+import { getNotebooks, saveNotebooks, createNotebook } from '@/lib/notebookStore';
 
 export default function Page() {
-    const [currentView, setCurrentView] = useState<ViewState>('home');
-    const [activeNotebookId, setActiveNotebookId] = useState<string | null>(null);
+    const router = useRouter();
+    const [notebooks, setNotebooks] = useState<NotebookType[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Mock Data
-    const [notebooks, setNotebooks] = useState<NotebookType[]>([
-        {
-            id: '1',
-            title: 'Computer Science Basics',
-            updatedAt: Date.now() - 10000000,
-            sources: [
-                {
-                    id: 's1',
-                    title: 'Intro to Algorithms',
-                    type: 'text',
-                    content: 'An algorithm is a set of instructions for solving a problem or accomplishing a task. One common example of an algorithm is a recipe, which consists of specific instructions for preparing a dish or meal. Every computerized device uses algorithms to perform its functions.',
-                    timestamp: Date.now()
-                }
-            ],
-            messages: [],
-            notes: []
-        },
-        {
-            id: '2',
-            title: 'Tech Daily News',
-            updatedAt: Date.now() - 86400000,
-            sources: [],
-            messages: [],
-            notes: []
-        }
-    ]);
+    // 加载 notebooks
+    useEffect(() => {
+        setNotebooks(getNotebooks());
+        setIsLoading(false);
+
+        // 监听 notebooks 更新事件
+        const handleUpdate = () => {
+            setNotebooks(getNotebooks());
+        };
+        window.addEventListener('notebooksUpdated', handleUpdate);
+        return () => window.removeEventListener('notebooksUpdated', handleUpdate);
+    }, []);
 
     const handleCreateNotebook = () => {
         const newNotebook: NotebookType = {
@@ -47,44 +34,31 @@ export default function Page() {
             messages: [],
             notes: []
         };
-        setNotebooks([newNotebook, ...notebooks]);
-        setActiveNotebookId(newNotebook.id);
-        setCurrentView('notebook');
+        createNotebook(newNotebook);
+        // 使用路由导航到新 notebook
+        router.push(`/notebook/${newNotebook.id}`);
     };
 
     const handleSelectNotebook = (notebook: NotebookType) => {
-        setActiveNotebookId(notebook.id);
-        setCurrentView('notebook');
+        // 使用路由导航到 notebook 详情页
+        router.push(`/notebook/${notebook.id}`);
     };
 
-    const handleUpdateActiveNotebook = (updatedNotebook: NotebookType) => {
-        setNotebooks(prev => prev.map(nb => nb.id === updatedNotebook.id ? updatedNotebook : nb));
-    };
-
-    const handleBackToHome = () => {
-        setCurrentView('home');
-        setActiveNotebookId(null);
-    };
-
-    const activeNotebook = notebooks.find(n => n.id === activeNotebookId);
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="animate-pulse text-gray-400">Loading...</div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-blue-100 selection:text-blue-900">
-            {currentView === 'home' && (
-                <Home
-                    notebooks={notebooks}
-                    onSelectNotebook={handleSelectNotebook}
-                    onCreateNotebook={handleCreateNotebook}
-                />
-            )}
-
-            {currentView === 'notebook' && activeNotebook && (
-                <Notebook
-                    notebook={activeNotebook}
-                    onUpdateNotebook={handleUpdateActiveNotebook}
-                    onBack={handleBackToHome}
-                />
-            )}
+            <Home
+                notebooks={notebooks}
+                onSelectNotebook={handleSelectNotebook}
+                onCreateNotebook={handleCreateNotebook}
+            />
         </div>
     );
 }

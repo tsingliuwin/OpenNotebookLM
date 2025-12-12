@@ -181,7 +181,6 @@ const Notebook: React.FC<NotebookProps> = ({ notebook, onUpdateNotebook, onBack 
                 </div>
                 <div className="flex items-center gap-3">
                     <button className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 rounded-lg">Share</button>
-                    <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">I</div>
                 </div>
             </header>
 
@@ -285,8 +284,8 @@ const Notebook: React.FC<NotebookProps> = ({ notebook, onUpdateNotebook, onBack 
                                         )}
                                         <div className={`flex flex-col max-w-[80%] ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
                                             <div className={`px-5 py-3.5 rounded-2xl text-[15px] leading-relaxed shadow-sm ${msg.role === 'user'
-                                                    ? 'bg-gray-100 text-gray-900 rounded-br-none'
-                                                    : 'bg-white border border-gray-100 text-gray-800 rounded-bl-none'
+                                                ? 'bg-gray-100 text-gray-900 rounded-br-none'
+                                                : 'bg-white border border-gray-100 text-gray-800 rounded-bl-none'
                                                 }`}>
                                                 {msg.isThinking ? (
                                                     <div className="flex gap-1 h-6 items-center">
@@ -328,8 +327,8 @@ const Notebook: React.FC<NotebookProps> = ({ notebook, onUpdateNotebook, onBack 
                                         onClick={handleSendMessage}
                                         disabled={!inputMessage.trim() || notebook.sources.length === 0 || isProcessing}
                                         className={`p-2 rounded-full transition-all ${inputMessage.trim()
-                                                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
-                                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                            ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
+                                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                             }`}
                                     >
                                         <Send className="w-5 h-5" />
